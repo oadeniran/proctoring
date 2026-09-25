@@ -46,7 +46,8 @@ export function renderRegister() {
     el("div", { class: "grid2" }, field(f.exam), field(f.seat)),
     field(accommodations),
     el("div", { class: "checks" }, feePaid.wrap, watch.wrap),
-    el("div", { class: "biogrid" }, faceBio.node, fpBio.node),
+    // el("div", { class: "biogrid" }, faceBio.node, fpBio.node),
+    el("div", { class: "biogrid" }, faceBio.node),
     el("div", { class: "form__actions" }, submitBtn, newBtn)
   );
 
@@ -295,7 +296,7 @@ function meta(k, v) {
 }
 function biometricSummary(c) {
   const parts = [];
-  if (c.has_fingerprint) parts.push("fingerprint");
+  // if (c.has_fingerprint) parts.push("fingerprint");
   if (c.has_face) parts.push("face");
   return parts.length ? parts.join(" + ") : "none";
 }
@@ -308,7 +309,8 @@ function row(c, onEdit, onChange) {
     : el("span", { class: "chip chip--neutral" }, "Enrolled");
 
   const bio = el("div", { class: "biochips" });
-  bio.append(dot(c.has_fingerprint, "FP"), dot(c.has_face, "Face"));
+  // bio.append(dot(c.has_fingerprint, "FP"), dot(c.has_face, "Face"));
+  bio.append(dot(c.has_face, "Face"));
 
   const delBtn = el(
     "button",

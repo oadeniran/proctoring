@@ -18,7 +18,8 @@ export function renderAdmission() {
   let source = "genuine"; // genuine | impersonation | live
   const faceBio = createBiometricField({ label: "Face scan", hint: "Camera or upload to match against enrolment." });
   const fpBio = createBiometricField({ label: "Fingerprint scan", hint: "Upload a fingerprint image to match." });
-  const livePanel = el("div", { class: "livebio", hidden: "" }, faceBio.node, fpBio.node);
+  // const livePanel = el("div", { class: "livebio", hidden: "" }, faceBio.node, fpBio.node);
+  const livePanel = el("div", { class: "livebio", hidden: "" }, faceBio.node);
 
   const sourceSeg = el(
     "div",
@@ -66,13 +67,18 @@ export function renderAdmission() {
         } else if (source === "impersonation") {
           body.simulate = true;
           body.demo_match = false;
-        } else {
+        } //else {
+        //   body.simulate = false;
+        //   if (fpBio.hasData()) body.fingerprint_scan = fpBio.getVector();
+        //   if (faceBio.hasData()) body.face_scan = faceBio.getVector();
+        //   if (!fpBio.hasData() && !faceBio.hasData()) {
+        //     return toast("Capture a face or fingerprint scan first.", "error");
+        //   }
+        // }
+        else {
           body.simulate = false;
-          if (fpBio.hasData()) body.fingerprint_scan = fpBio.getVector();
           if (faceBio.hasData()) body.face_scan = faceBio.getVector();
-          if (!fpBio.hasData() && !faceBio.hasData()) {
-            return toast("Capture a face or fingerprint scan first.", "error");
-          }
+          else return toast("Capture a face scan first.", "error");
         }
 
         verifyBtn.disabled = true;
@@ -186,7 +192,7 @@ function verdictPanel(res, code, onReset) {
     : el("div", { class: "idcard idcard--unknown" }, el("span", { class: "avatar avatar--bad" }, "?"), el("div", {}, el("div", { class: "idcard__name" }, "Unrecognised pass"), el("code", { class: "code code--sm" }, code)));
 
   const scores = el("div", { class: "scores" });
-  if (res.scores && "fingerprint" in res.scores) scores.append(meter("Fingerprint", res.scores.fingerprint));
+  // if (res.scores && "fingerprint" in res.scores) scores.append(meter("Fingerprint", res.scores.fingerprint));
   if (res.scores && "face" in res.scores) scores.append(meter("Face", res.scores.face));
 
   const body = el("div", { class: "verdict__body" }, idCard, scores);
